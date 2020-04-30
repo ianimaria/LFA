@@ -65,37 +65,52 @@ for i in alfabet:
     mult=[]
 
    
-# cautam cuvinte de lungime 2
+# cautam cuvinte de lungime >=2
 
+ok = 0
+while (ok == 0):
 
-for i in range(1,len(tabel)):
-    for j in range(i):
+    for i in range(1,len(tabel)):
+        for j in range(i):
 
-        if tabel[i][j] == 'gol' :
+            if tabel[i][j] == 'gol' :
            
-            for a in alfabet:
+                for a in alfabet:
                
-               for k in range(len(lista_muchii)-1,-1,-1):
+                   for k in range(len(lista_muchii)):
                    
-                   if lista_muchii[k][0] == stari[i] and lista_muchii[k][1] == a:
-                       x = stari.index(lista_muchii[k][2])
+                       if lista_muchii[k][0] == stari[i] and lista_muchii[k][1] == a:
+                           x = stari.index(lista_muchii[k][2])
+                           
                        
-                   if lista_muchii[k][0] == stari[j] and lista_muchii[k][1] == a:
-                       y = stari.index(lista_muchii[k][2])
+                       if lista_muchii[k][0] == stari[j] and lista_muchii[k][1] == a:
+                           y = stari.index(lista_muchii[k][2])
+                           
                   
 
-               if x > y and tabel[x][y] in alfabet:
-                 tabel[i][j] = a + tabel[x][y] 
-                 break
+                   if x > y and tabel[x][y] != 'gol' :
+                       tabel[i][j] = a + tabel[x][y]
+                       break
                 
                
-               elif x < y and tabel[y][x] in alfabet:
-                   tabel[i][j] = a + tabel[y][x]
-                   break
+                   elif x < y and tabel[y][x] != 'gol':
+                       tabel[i][j] = a + tabel[y][x] 
+                       break
 
-               else:
-                   tabel[i][j] = 'echiv'
-                
+                   elif x == y or x == stari.index(stari[j]) and y == stari.index(stari[i]):
+                       tabel[i][j] = 'echiv'
+
+                   
+
+    ok = 1
+
+    for i in range(1,len(tabel)):
+        for j in range(i):
+            if tabel[i][j] == 'gol' :
+                ok = 0
+            
+         
+print(tabel)       
 Q=[]
 I=[]
 F=[]
@@ -153,24 +168,25 @@ for node in G:
     else:
         color_map.append('skyblue')
 
-print(color_map)
+
 labels={}
 shape=[]
 edgecolors=[]
 
 for i in M:
+
     G.add_edge(i[0],i[2])
 
     labels[i[0],i[2]]=i[1]
+   
 
 
-
-for i in range(len(Q)):
+for i in G.nodes:
     ok=0
     k=0
     for j in range(len(M)):
 
-        if Q[i] == M[j][0] and Q[i] == M[j][2] and k==0:
+        if i == M[j][0] and i == M[j][2] and k==0:
              edgecolors.append('red')
              ok=1
              k=1
@@ -181,6 +197,6 @@ for i in range(len(Q)):
 pos = nx.circular_layout(G)
 
 nx.draw(G,pos,node_color = color_map, node_size = 2500, edgecolors = edgecolors, linewidths = 2, with_labels = True)
-nx.draw_networkx_edge_labels(G,pos, edge_labels = labels ,font_color='midnightblue')
+nx.draw_networkx_edge_labels(G,pos, edge_labels = labels, label_pos=0.3 ,font_color='midnightblue')
 
 plt.show()

@@ -1,0 +1,6 @@
+4
+S A
+a b
+S
+S->bSbb | A 
+A->aA | E
